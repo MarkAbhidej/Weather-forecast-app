@@ -4,11 +4,11 @@ import com.example.weatherforecastapp.data.network.api.OpenWeatherApiInterface
 import com.example.weatherforecastapp.data.network.model.forecast.*
 import com.example.weatherforecastapp.data.network.model.forecast.currentday.CurrentForecastResponse
 import com.example.weatherforecastapp.data.network.model.forecast.wholeday.CityResponse
+import com.example.weatherforecastapp.data.network.model.forecast.wholeday.ForecastResponse
+import com.example.weatherforecastapp.data.network.model.forecast.wholeday.RainResponse
 import com.example.weatherforecastapp.data.network.model.forecast.wholeday.WholeDayForecastResponse
 import com.example.weatherforecastapp.data.repository.ForecastRepository
 import com.example.weatherforecastapp.data.repository.ForecastRepositoryImpl
-import com.example.weatherforecastapp.domain.model.*
-import com.example.weatherforecastapp.domain.model.currentday.CurrentDayModel
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -48,7 +48,9 @@ class ForecastRepositoryTest {
 
         // Then
         result.collect {
-            assertEquals("", it.base)
+            assertEquals(17.1, it.main?.temp)
+            assertEquals(60, it.main?.humidity)
+            assertEquals("Amsterdam", it.sys?.country)
         }
     }
 
@@ -85,11 +87,13 @@ class ForecastRepositoryTest {
         } returns Response.success(mockResponseFormForecastByCityName())
 
         // When
-        val result = repository.getCurrentForecastFromCityName("Amsterdam")
+        val result = repository.getCurrentForecastFromCityName("Bangkok")
 
         // Then
         result.collect {
-            assertEquals("", it.base)
+            assertEquals(29.5, it.main?.temp)
+            assertEquals(67, it.main?.humidity)
+            assertEquals("Bangkok", it.sys?.country)
         }
     }
 
@@ -130,7 +134,9 @@ class ForecastRepositoryTest {
 
         // Then
         result.collect {
-            assertEquals("", it.city?.name)
+            assertEquals("Tokyo", it.city?.country)
+            assertEquals(77, it.list?.first()?.main?.humidity)
+            assertEquals(18.5, it.list?.first()?.main?.temp)
         }
     }
 
@@ -166,17 +172,17 @@ class ForecastRepositoryTest {
             mainResponse = MainResponse(
                 feelsLike = 0.0,
                 grndLevel = 1,
-                humidity = 1,
+                humidity = 60,
                 pressure = 1,
                 seaLevel = 1,
-                temp = 0.0,
+                temp = 17.1,
                 tempKf = 0.0,
                 tempMax = 0.0,
                 tempMin = 0.0
             ),
             name = "",
             sysResponse = SysResponse(
-                country = "",
+                country = "Amsterdam",
                 id = 1,
                 sunrise = 1,
                 sunset = 1,
@@ -205,17 +211,17 @@ class ForecastRepositoryTest {
             mainResponse = MainResponse(
                 feelsLike = 0.0,
                 grndLevel = 1,
-                humidity = 1,
+                humidity = 67,
                 pressure = 1,
                 seaLevel = 1,
-                temp = 0.0,
+                temp = 29.5,
                 tempKf = 0.0,
                 tempMax = 0.0,
                 tempMin = 0.0
             ),
             name = "",
             sysResponse = SysResponse(
-                country = "",
+                country = "Bangkok",
                 id = 1,
                 sunrise = 1,
                 sunset = 1,
@@ -240,7 +246,7 @@ class ForecastRepositoryTest {
                     lat = 0.0,
                     lon = 0.0
                 ),
-                country = "",
+                country = "Tokyo",
                 id = 1,
                 name = "",
                 population = 1,
@@ -250,45 +256,46 @@ class ForecastRepositoryTest {
             ),
             cnt = 1,
             cod = "",
-            list = listOf(),
+            list = listOf(
+                ForecastResponse(
+                    clouds = CloudsResponse(
+                        all = 1
+                    ),
+                    dt = 1,
+                    dtTxt = "",
+                    main = MainResponse(
+                        feelsLike = 0.0,
+                        grndLevel = 1,
+                        humidity = 77,
+                        pressure = 1,
+                        seaLevel = 1,
+                        temp = 18.5,
+                        tempKf = 0.0,
+                        tempMax = 0.0,
+                        tempMin = 0.0
+                    ),
+                    pop = 0.0,
+                    rain = RainResponse(
+                        h = 0.0
+                    ),
+                    sys = SysResponse(
+                        country = "",
+                        id = 1,
+                        sunrise = 1,
+                        sunset = 1,
+                        type = 1,
+                        pod = ""
+                    ),
+                    visibility = 1,
+                    weather = listOf(),
+                    wind = WindResponse(
+                        deg = 1,
+                        gust = 0.0,
+                        speed = 0.0
+                    )
+                )
+            ),
             message = 1
-        )
-    }
-
-    private fun mockToDayOpenWeather(): CurrentDayModel {
-        return CurrentDayModel(
-            base = "",
-            clouds = Clouds(all = 1),
-            cod = 1,
-            coord = Coord(lat = 0.0, lon = 0.0),
-            dt = 1,
-            id = 1,
-            main = Main(
-                feelsLike = 0.0,
-                grndLevel = 1,
-                humidity = 1,
-                pressure = 1,
-                seaLevel = 1,
-                temp = 0.0,
-                tempMax = 0.0,
-                tempMin = 0.0
-            ),
-            name = "",
-            sys = Sys(
-                country = "",
-                id = 1,
-                sunrise = 1,
-                sunset = 1,
-                type = 1
-            ),
-            timezone = 1,
-            visibility = 1,
-            weather = listOf<Weather>(),
-            wind = Wind(
-                deg = 1,
-                gust = 0.0,
-                speed = 0.0
-            )
         )
     }
 }
