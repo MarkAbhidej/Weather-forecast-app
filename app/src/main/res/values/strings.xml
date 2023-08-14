@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">weather Forecast App</string>
+    <string name="temp_celsius">%.2f C</string>
+    <string name="temp_fahrenheit">%.2f F</string>
+    <string name="humidity_percentage">%d%%</string>
+    <string name="switch_unit">Switch unit</string>
+    <string name="title_whole_day">Forecast whole day</string>
+    <string name="dialog_loading">Loading</string>
+    <string name="dialog_error">Error</string>
+    <string name="ok_button">Error</string>
+</resources>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/currentWeatherFragment"
+        android:title="Current weather"
+        android:icon="@drawable/ic_current_forecast"/>
+
+    <item android:id="@+id/wholeDayWeatherFragment"
+        android:title="whole day"
+        android:icon="@drawable/ic_whole_day_forecast"/>
+
+</menu>

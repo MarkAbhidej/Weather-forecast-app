@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/currentWeatherFragment">
+
+    <fragment
+        android:id="@+id/currentWeatherFragment"
+        android:name="com.example.weatherforecastapp.presentation.CurrentForecastFragment"
+        android:label="currentWeatherFragment">
+        <action
+            android:id="@+id/action_currentWeatherFragment_to_weatherWholeFragment"
+            app:destination="@id/wholeDayWeatherFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/wholeDayWeatherFragment"
+        android:name="com.example.weatherforecastapp.presentation.WholeDayForecastFragment"
+        android:label="weatherWholeFragment">
+
+        <argument
+            android:name="latitude"
+            android:defaultValue=""
+            app:argType="string" />
+
+        <argument
+            android:name="longitude"
+            android:defaultValue=""
+            app:argType="string" />
+
+    </fragment>
+
+</navigation>
