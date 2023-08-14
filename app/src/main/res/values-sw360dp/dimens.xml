@@ -3,6 +3,6 @@
     <dimen name="city_text_size">24sp</dimen>
     <dimen name="temp_text_size">52sp</dimen>
     <dimen name="switch_text_size">16sp</dimen>
-    <dimen name="icon_humidity_size">60dp</dimen>
-    <dimen name="humidity_text_size">48sp</dimen>
+    <dimen name="icon_humidity_size">40dp</dimen>
+    <dimen name="humidity_text_size">34sp</dimen>
 </resources>
