@@ -11,7 +11,9 @@ import com.example.weatherforecastapp.domain.usecase.GetCurrentForecastFromLocat
 import com.example.weatherforecastapp.domain.usecase.GetWholeDayForecastByLocationUseCase
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 
 class ForecastViewModel(
@@ -40,6 +42,7 @@ class ForecastViewModel(
             location = address
             address?.let { address ->
                 getCurrentForecastFromLocationUseCase.execute(address.latitude, address.longitude)
+                    .flowOn(Dispatchers.IO)
                     .catch {
                         onShowCurrentForecastError.value = Unit
                     }
@@ -54,6 +57,7 @@ class ForecastViewModel(
         viewModelScope.launch {
             if (search.isNotBlank()) {
                 getCurrentForecastFromCityNameUseCase.execute(search)
+                    .flowOn(Dispatchers.IO)
                     .catch {
                         onShowCurrentForecastError.value = Unit
                     }
@@ -69,6 +73,7 @@ class ForecastViewModel(
             val latitude = location?.latitude ?: 0.0
             val longitude = location?.longitude ?: 0.0
             getWholeDayForecastByLocationUseCase.execute(latitude, longitude)
+                .flowOn(Dispatchers.IO)
                 .catch {
                     onShowWholeDayForecastError.value = Unit
                 }.collect {
